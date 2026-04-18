@@ -215,6 +215,7 @@ fn main() {
     let wasi = wasi_toolchain();
 
     let mut cfg = cmake::Config::new(&src_dir);
+    cfg.out_dir(src_dir);
     cfg.profile("Release");
     if let Some((toolchain, prefix)) = &wasi {
         if !toolchain.is_file() {
@@ -369,8 +370,8 @@ fn main() {
     };
 
     let mut bindings = bindgen::Builder::default()
-        .header(src_dir.join("ultrahdr_api.h").to_string_lossy())
-        .clang_arg(format!("-I{}", src_dir.display()))
+        .header(source_dir.join("ultrahdr_api.h").to_string_lossy())
+        .clang_arg(format!("-I{}", source_dir.display()))
         .rustified_enum("uhdr_.*")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .layout_tests(false)
